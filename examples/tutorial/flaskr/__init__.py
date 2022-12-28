@@ -2,7 +2,6 @@ import os
 
 from flask import Flask
 
-
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
@@ -31,12 +30,12 @@ def create_app(test_config=None):
         return "Hello, World!"
 
     # register the database commands
-    from flaskr import db
+    from . import db
 
     db.init_app(app)
 
     # apply the blueprints to the app
-    from flaskr import auth, blog
+    from . import auth, blog
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
@@ -48,3 +47,6 @@ def create_app(test_config=None):
     app.add_url_rule("/", endpoint="index")
 
     return app
+
+if __name__ == "__main__":
+    create_app().run(debug=True)
